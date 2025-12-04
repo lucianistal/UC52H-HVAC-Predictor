@@ -49,7 +49,7 @@ La temperatura de entrada del aire (UCAIT) domina el modelo con una importancia 
 ```
 HVAC/
 ├── src/
-│   └── modelo_uc52h_FINAL.py      Código principal del modelo
+│   └── modelo_uc52h.py            Código principal del modelo
 ├── data/
 │   ├── DS01_sum_*.csv             Datasets modo verano
 │   ├── DS03_win_*.csv             Datasets modo invierno
@@ -60,7 +60,7 @@ HVAC/
 │   └── MEMORIA.txt                Memoria técnica completa
 ├── README.md                      Este archivo
 ├── requirements.txt               Dependencias del proyecto
-└── INSTRUCCIONES.txt             Guía de uso
+└── INSTRUCCIONES.txt              Guía de uso
 ```
 
 ---
@@ -276,21 +276,3 @@ La dominancia de UCAIT en ambos modelos es físicamente consistente, ya que la t
 **Causa:** El archivo Excel está abierto o no hay permisos de escritura.
 
 **Solución:** Cerrar el archivo `RESULTADOS_UC52H.xlsx` si está abierto y verificar permisos en la carpeta output/.
-
----
-
-## Trabajo Futuro
-
-Posibles mejoras y extensiones del proyecto:
-
-1. **Optimización de hiperparámetros:** Implementar búsqueda sistemática mediante GridSearchCV o RandomizedSearchCV.
-
-2. **Modelos adicionales:** Comparar rendimiento con XGBoost, LightGBM o redes neuronales.
-
-3. **Análisis de estacionalidad:** Incorporar variables temporales (hora del día, día de la semana) para capturar patrones cíclicos.
-
-4. **Sistema de predicción en tiempo real:** Desarrollar API REST para predicciones online.
-
-5. **Análisis de eficiencia energética:** Utilizar las predicciones para optimizar el consumo energético del sistema.
-
----
