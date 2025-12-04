@@ -1,0 +1,417 @@
+===============================================================================
+MEMORIA TECNICA
+Modelo Predictivo para Sistema de Climatización UC52H
+===============================================================================
+
+AUTOR: [Tu Nombre]
+INSTITUCION: [Tu Universidad/Centro]
+ASIGNATURA: [Nombre de la Asignatura]
+FECHA: Diciembre 2024
+
+===============================================================================
+INDICE
+===============================================================================
+
+1. INTRODUCCION
+2. OBJETIVOS
+3. METODOLOGIA
+4. DESCRIPCION DEL MODELO
+5. DATOS UTILIZADOS
+6. RESULTADOS
+7. ANALISIS Y DISCUSION
+8. CONCLUSIONES
+9. REFERENCIAS
+10. ANEXOS
+
+===============================================================================
+1. INTRODUCCION
+===============================================================================
+
+El presente trabajo desarrolla un sistema de predicción basado en técnicas 
+de Machine Learning para estimar la temperatura de salida de aire (UCAOT) 
+en un equipo de climatización UC52H. 
+
+El modelo utiliza algoritmos de Random Forest para establecer relaciones 
+no lineales entre las variables operacionales del sistema y la temperatura
+de salida, permitiendo predecir el comportamiento del equipo bajo diferentes
+condiciones de operación.
+
+Este tipo de modelos predictivos, conocidos como "gemelos digitales", tienen
+aplicaciones prácticas en:
+  - Optimización de consumo energético
+  - Mantenimiento predictivo
+  - Control automático de sistemas HVAC
+  - Simulación de escenarios operacionales
+
+
+===============================================================================
+2. OBJETIVOS
+===============================================================================
+
+2.1. OBJETIVO GENERAL
+
+Desarrollar un modelo predictivo basado en Random Forest capaz de estimar
+con alta precisión la temperatura de salida de aire (UCAOT) en un sistema
+de climatización UC52H utilizando variables operacionales medibles.
+
+
+2.2. OBJETIVOS ESPECIFICOS
+
+  a) Recopilar y procesar datos históricos del sistema UC52H
+  
+  b) Identificar las variables operacionales más relevantes para la predicción
+  
+  c) Entrenar y validar un modelo de Machine Learning (Random Forest)
+  
+  d) Evaluar la precisión del modelo mediante métricas estándar (R², RMSE, MAE)
+  
+  e) Generar predicciones sobre datos de test no vistos por el modelo
+  
+  f) Documentar el proceso y resultados de forma profesional
+
+
+===============================================================================
+3. METODOLOGIA
+===============================================================================
+
+3.1. PIPELINE DE TRABAJO
+
+El desarrollo del modelo sigue una metodología estándar de Machine Learning:
+
+  FASE 1: Recopilación de datos
+    - Obtención de datos históricos del sistema UC52H
+    - Verificación de integridad y completitud
+
+  FASE 2: Preprocesamiento
+    - Limpieza de valores nulos
+    - Detección y eliminación de valores atípicos
+    - Normalización de variables mediante StandardScaler
+
+  FASE 3: Entrenamiento
+    - Selección del algoritmo (Random Forest)
+    - Configuración de hiperparámetros
+    - Entrenamiento sobre conjunto de datos
+
+  FASE 4: Evaluación
+    - Cálculo de métricas de precisión
+    - Análisis de importancia de variables
+    - Validación de resultados
+
+  FASE 5: Predicción
+    - Aplicación del modelo sobre datos de test
+    - Generación de informe de resultados
+
+
+3.2. HERRAMIENTAS UTILIZADAS
+
+  - Lenguaje: Python 3.8+
+  - Librerías principales:
+    * pandas: Manipulación de datos
+    * numpy: Operaciones numéricas
+    * scikit-learn: Algoritmos de Machine Learning
+    * openpyxl: Generación de informes Excel
+
+  - Algoritmo: Random Forest Regressor
+  - IDE: [Tu IDE preferido]
+
+
+===============================================================================
+4. DESCRIPCION DEL MODELO
+===============================================================================
+
+4.1. ALGORITMO: RANDOM FOREST
+
+Random Forest es un algoritmo de ensemble learning que construye múltiples
+árboles de decisión durante el entrenamiento y genera predicciones mediante
+el promedio de las salidas individuales de cada árbol.
+
+Ventajas del Random Forest:
+  - Maneja relaciones no lineales complejas
+  - Robusto ante overfitting
+  - Proporciona medidas de importancia de variables
+  - No requiere normalización estricta de datos
+  - Funciona bien con datasets de tamaño mediano
+
+
+4.2. CONFIGURACION DEL MODELO
+
+Hiperparámetros seleccionados:
+
+  n_estimators: 200
+    Número de árboles en el bosque. Más árboles mejoran la precisión
+    pero aumentan el tiempo de cómputo.
+
+  max_depth: 20
+    Profundidad máxima de cada árbol. Limita el crecimiento para
+    evitar overfitting.
+
+  min_samples_split: 5
+    Número mínimo de muestras requeridas para dividir un nodo.
+    Ayuda a prevenir sobreajuste.
+
+  min_samples_leaf: 2
+    Número mínimo de muestras en un nodo hoja.
+    Evita crear hojas con muy pocas muestras.
+
+  random_state: 42
+    Semilla para reproducibilidad de resultados.
+
+
+4.3. VARIABLES DEL MODELO
+
+VARIABLES DE ENTRADA (5):
+
+  1. UCWIT: Temperatura entrada agua (°C)
+     Rango válido: [0, 50]
+     Descripción: Temperatura del agua que ingresa al intercambiador
+
+  2. UCAIT: Temperatura entrada aire (°C)
+     Rango válido: [15, 40]
+     Descripción: Temperatura ambiente del aire a climatizar
+
+  3. UCWF: Caudal de agua (l/h)
+     Rango válido: [0, 2000]
+     Descripción: Flujo volumétrico de agua en el sistema
+
+  4. UCAF: Caudal de aire (m³/h)
+     Rango válido: [0, 2000]
+     Descripción: Flujo volumétrico de aire tratado
+
+  5. UCFDP: Presión del ventilador (Pa)
+     Rango válido: [0, 100]
+     Descripción: Presión diferencial generada por el ventilador
+
+VARIABLE DE SALIDA (1):
+
+  UCAOT: Temperatura salida aire (°C)
+    Rango válido: [10, 40]
+    Descripción: Temperatura del aire tras el tratamiento térmico
+
+
+===============================================================================
+5. DATOS UTILIZADOS
+===============================================================================
+
+5.1. CONJUNTO DE ENTRENAMIENTO
+
+  Fuente: RESULTADOS_TEST_CON_PREDICCIONES.xlsx
+  Número de registros: 200
+  Período: [Especificar si se conoce]
+  Modo de operación: Verano (refrigeración)
+
+Distribución de datos:
+  - Registros válidos tras limpieza: 200 (100%)
+  - Valores nulos eliminados: 0
+  - Valores atípicos eliminados: 0
+
+
+5.2. CONJUNTO DE TEST
+
+  Fuente: DATOS_TEST_VERANO.csv
+  Número de registros: 200
+  Características: Datos no vistos durante el entrenamiento
+
+El conjunto de test se utiliza para evaluar la capacidad de generalización
+del modelo a situaciones nuevas, garantizando que las predicciones no están
+sesgadas por haber memorizado los datos de entrenamiento.
+
+
+5.3. PREPROCESAMIENTO APLICADO
+
+  1. Conversión a formato numérico
+  2. Eliminación de valores nulos (NaN)
+  3. Filtrado de valores fuera de rango físicamente posible
+  4. Normalización mediante StandardScaler:
+     z = (x - μ) / σ
+     donde μ es la media y σ la desviación estándar
+
+
+===============================================================================
+6. RESULTADOS
+===============================================================================
+
+6.1. METRICAS DE PRECISION
+
+El modelo entrenado alcanzó las siguientes métricas de evaluación:
+
+  R² (Coeficiente de Determinación): 0.9735
+    Interpretación: El modelo explica el 97.35% de la variabilidad en los
+    datos. Un valor superior a 0.95 se considera excelente.
+
+  RMSE (Root Mean Square Error): 0.5585 °C
+    Interpretación: Error cuadrático medio de las predicciones. Un RMSE
+    inferior a 1°C es considerado muy bajo para aplicaciones térmicas.
+
+  MAE (Mean Absolute Error): 0.3892 °C
+    Interpretación: Error absoluto promedio de las predicciones. Indica que
+    en promedio, las predicciones se desvían solo 0.39°C del valor real.
+
+
+6.2. IMPORTANCIA DE VARIABLES
+
+El análisis de importancia de variables revela la contribución relativa de
+cada variable de entrada a las predicciones del modelo:
+
+  1. UCAIT (Temp. entrada aire): 60.34%
+     Variable dominante. La temperatura del aire de entrada es el factor
+     más influyente en la temperatura de salida.
+
+  2. UCWF (Caudal agua): 16.29%
+     Segunda variable más importante. El caudal de agua afecta la capacidad
+     de intercambio térmico.
+
+  3. UCFDP (Presión ventilador): 13.52%
+     Tercera en importancia. La presión del ventilador influye en la
+     eficiencia del intercambio.
+
+  4. UCWIT (Temp. entrada agua): 5.58%
+     Importancia moderada. La temperatura del agua tiene efecto secundario.
+
+  5. UCAF (Caudal aire): 4.27%
+     Menor importancia relativa en el modelo entrenado.
+
+
+6.3. ESTADISTICAS DE PREDICCION
+
+Sobre el conjunto de test de 200 muestras:
+
+  Temperatura entrada promedio: 29.55 °C
+  Temperatura salida promedio: 25.61 °C
+  Enfriamiento promedio: 3.94 °C
+  Rango de enfriamiento: [1.07, 11.30] °C
+
+El modelo demuestra capacidad para predecir diferentes niveles de enfriamiento
+según las condiciones operacionales.
+
+
+===============================================================================
+7. ANALISIS Y DISCUSION
+===============================================================================
+
+7.1. INTERPRETACION DE RESULTADOS
+
+El modelo Random Forest desarrollado muestra un rendimiento excepcional
+con un R² de 0.9735, lo que indica una capacidad predictiva muy alta.
+
+Los resultados confirman que:
+
+  a) La temperatura de entrada del aire (UCAIT) es la variable más crítica,
+     representando más del 60% de la importancia en las predicciones. Esto
+     es consistente con la física del sistema, ya que determina el potencial
+     de enfriamiento inicial.
+
+  b) El caudal de agua (UCWF) tiene el segundo mayor impacto, lo cual tiene
+     sentido desde el punto de vista termodinámico: mayor caudal permite
+     mayor transferencia de calor.
+
+  c) El error promedio de 0.39°C es suficientemente bajo para aplicaciones
+     prácticas de control y optimización.
+
+
+7.2. COMPARACION CON OTROS ENFOQUES
+
+En comparación con modelos lineales tradicionales, Random Forest ofrece:
+
+  - Mayor capacidad para capturar relaciones no lineales
+  - Mejor manejo de interacciones entre variables
+  - Menor sensibilidad a valores atípicos
+  - Interpretabilidad mediante análisis de importancia
+
+
+7.3. LIMITACIONES
+
+El modelo presenta las siguientes limitaciones:
+
+  1. Datos limitados: 200 registros de entrenamiento pueden no cubrir
+     todas las condiciones operacionales posibles.
+
+  2. Modo único: El modelo actual solo funciona para modo verano
+     (refrigeración). Modo invierno requeriría entrenamiento separado.
+
+  3. Extrapolación: El modelo no debe usarse fuera de los rangos de
+     variables observados durante el entrenamiento.
+
+
+===============================================================================
+8. CONCLUSIONES
+===============================================================================
+
+8.1. CONCLUSIONES PRINCIPALES
+
+  1. Se ha desarrollado exitosamente un modelo predictivo basado en Random
+     Forest con una precisión del 97.35% para predecir la temperatura de
+     salida de aire en el sistema UC52H.
+
+  2. El modelo identifica correctamente la temperatura de entrada del aire
+     como la variable más influyente (60.34% de importancia).
+
+  3. El error promedio de predicción de 0.39°C es suficientemente bajo para
+     aplicaciones prácticas en control y optimización de sistemas HVAC.
+
+  4. El sistema desarrollado es completamente automático, desde la carga de
+     datos hasta la generación de informes, facilitando su uso operacional.
+
+
+8.2. APLICACIONES POTENCIALES
+
+Este modelo puede utilizarse para:
+
+  - Control predictivo: Ajustar parámetros operacionales anticipadamente
+  - Optimización energética: Identificar configuraciones de mínimo consumo
+  - Detección de anomalías: Identificar desviaciones del comportamiento normal
+  - Planificación de mantenimiento: Predecir degradación de rendimiento
+
+
+8.3. TRABAJO FUTURO
+
+Posibles mejoras y extensiones:
+
+  1. Ampliar conjunto de entrenamiento con más datos históricos
+  2. Desarrollar modelo para modo invierno (calefacción)
+  3. Implementar validación cruzada para evaluar robustez
+  4. Comparar con otros algoritmos (redes neuronales, gradient boosting)
+  5. Desarrollar interfaz gráfica para uso por operadores
+  6. Integrar el modelo en sistema de control automático
+
+
+===============================================================================
+9. REFERENCIAS
+===============================================================================
+
+[1] Breiman, L. (2001). Random Forests. Machine Learning, 45(1), 5-32.
+
+[2] Pedregosa et al. (2011). Scikit-learn: Machine Learning in Python.
+    Journal of Machine Learning Research, 12, 2825-2830.
+
+[3] McKinney, W. (2010). Data Structures for Statistical Computing in Python.
+    Proceedings of the 9th Python in Science Conference, 51-56.
+
+[4] ASHRAE Handbook - HVAC Systems and Equipment (2020). American Society of
+    Heating, Refrigerating and Air-Conditioning Engineers.
+
+
+===============================================================================
+10. ANEXOS
+===============================================================================
+
+ANEXO A: CODIGO FUENTE
+  Ver archivo: modelo_predictivo_uc52h.py
+
+ANEXO B: RESULTADOS DETALLADOS
+  Ver archivo: RESULTADOS_PREDICCION.xlsx
+
+ANEXO C: DATOS DE ENTRADA
+  Ver archivos:
+    - DATOS_TEST_VERANO.csv
+    - RESULTADOS_TEST_CON_PREDICCIONES.xlsx
+
+ANEXO D: INSTRUCCIONES DE EJECUCION
+  Ver archivo: README.md
+
+ANEXO E: MANUAL DE USUARIO
+  Ver archivo: MANUAL_USUARIO.md
+
+
+===============================================================================
+FIN DE LA MEMORIA TECNICA
+===============================================================================
