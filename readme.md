@@ -59,8 +59,7 @@ HVAC/
 ├── docs/
 │   └── MEMORIA.txt                Memoria técnica completa
 ├── README.md                      Este archivo
-├── requirements.txt               Dependencias del proyecto
-└── INSTRUCCIONES.txt              Guía de uso
+└── requirements.txt               Dependencias del proyecto
 ```
 
 ---
